@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+    const ws = new WebSocket("ws://localhost:10000/ws");
+    const duration = 0;
+    //const duration = 1000;
+    const sleep = async () => await new Promise((resolve) => setTimeout(() => resolve(), duration))
+    ws.onopen = async function () {
+        console.log('onopen');
+
+        ws.send(new TextEncoder().encode('test1'))
+        await sleep()
+        ws.send(new TextEncoder().encode('test2'))
+        await sleep()
+        ws.send(new TextEncoder().encode('test3'))
+    }
+    ws.onmessage = function (t) {
+        console.log('onMessage', t)
+    }
+    ws.onclose = function (e) {
+        console.log('closed', e)
+    }
+
+</script>
+</body>
+</html>
